@@ -1,0 +1,61 @@
+<div class="jumbotron">
+    <h1 class="text-center">Machines</h1>
+</div>
+<a href="#!/events" class="btn btn-primary">Events</a>
+<a href="#!/configurations" class="btn btn-primary">Configurations</a>
+<a href="#!/machines/new" class="btn btn-success">New machine</a>
+<p>Machines listen: {{machines.length}}</p>
+<div class="table-responsive">
+    <div class="form-group">
+        <input class="form-control" ng-model="filterField" type="search" placeholder="Search..." />
+    </div>
+    <div ng-if="showLoading" class="spinner-border" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+    <div ng-if="showAlertError.show" class="alert alert-danger" role="alert">
+        {{showAlertError.message}}
+    </div>
+    <div ng-if="machine.name != null" class="alert alert-warning" role="alert">
+        confirm delete machine name {{machine.name}}?
+        <button class="btn btn-secondary" ng-click="closeDelete();">No</button>
+        &nbsp;
+        &nbsp;
+        <button class="btn btn-danger" ng-click="delete();">Yes</button>
+    </div>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th class="text-center" colspan="6">Machines registred</th>
+            </tr>
+            <tr class="text-center">
+                <th>Action</th>
+                <th>Active</th>
+                <th>Status</th>
+                <th>Name</th>
+                <th>Created in</th>
+                <th>Updated in</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr dir-paginate="machine in machines | filter: filterField | itemsPerPage: limitPage" current-page="currentpage" total-items="totalMachines">
+                <td class="text-center">
+                    <a class="btn btn-success btn-sm" ng-href="#!/machines/events/{{machine.name}}">Events</a>
+                        &nbsp;
+                    <a class="btn btn-secondary btn-sm" ng-href="#!/machines/edit/{{machine.name}}">Edit</a>
+                    &nbsp;
+                    <button class="btn btn-danger btn-sm" type="button" ng-click="select(machine);">Remove</button>
+                </td>
+                <td ng-if="machine.active == 'Y'" class="text-center">Active</td>
+                <td ng-if="machine.active == 'N'" class="text-center">Inactive</td>
+                <td class="text-center">{{machine.status}}</td>
+                <td>{{machine.name}}</td>
+                <td class="text-center">{{machine.created_date | date:"dd/MM/yyyy HH:mm:ss"}}</td>
+                <td class="text-center">{{machine.updated_date | date:"dd/MM/yyyy HH:mm:ss"}}</td>
+            </tr>
+            <tr ng-if="machines.length == 0">
+                <td colspan="6" class="text-center">No have machines registred</td>
+            </tr>
+        </tbody>
+    </table>
+    <dir-pagination-controls on-page-change="eventPaginationChange(newPageNumber, oldPageNumber)"></dir-pagination-controls>
+</div>

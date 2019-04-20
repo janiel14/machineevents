@@ -90,7 +90,7 @@ module.exports = function(app) {
      */
     _self.getMachine = async (req, res) => {
         try {
-            const machine = Machines.findOne({
+            const machine = await Machines.findOne({
                 name: req.params.name
             });
             if (machine) {
@@ -125,7 +125,7 @@ module.exports = function(app) {
         try {
             req.params.pag = isNaN(req.params.pag) ? 0 : req.params.pag;
             req.params.limit = isNaN(req.params.limit) ? 10 : req.params.limit;
-            const machineCount = await Machines.find().count();
+            const machineCount = await Machines.find().countDocuments();
             if (req.params.pag == 2) {
                 req.params.pag = req.params.limit; 
             } else if (req.params.pag > 3) {

@@ -16,7 +16,7 @@ module.exports = function(app) {
             req.params.limit = isNaN(req.params.limit) ? 10 : req.params.limit;
             const eventsCount = await MachineEvents.find({
                 machine: req.params.machine
-            }).count();
+            }).countDocuments();
             if (req.params.pag == 2) {
                 req.params.pag = req.params.limit; 
             } else if (req.params.pag > 3) {

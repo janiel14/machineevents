@@ -90,7 +90,7 @@ module.exports = function(app) {
      */
     _self.getEvent = async (req, res) => {
         try {
-            const event = Events.findOne({
+            const event = await Events.findOne({
                 name: req.params.name
             });
             if (event) {
@@ -125,7 +125,7 @@ module.exports = function(app) {
         try {
             req.params.pag = isNaN(req.params.pag) ? 0 : req.params.pag;
             req.params.limit = isNaN(req.params.limit) ? 10 : req.params.limit;
-            const eventCount = await Events.find().count();
+            const eventCount = await Events.find().countDocuments();
             if (req.params.pag == 2) {
                 req.params.pag = req.params.limit; 
             } else if (req.params.pag > 3) {

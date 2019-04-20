@@ -1,0 +1,40 @@
+{
+  "name": "machineevents",
+  "version": "1.0.0",
+  "description": "project web for manager remote machines",
+  "main": "server.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/janiel14/machineevents.git"
+  },
+  "keywords": [
+    "nodejs",
+    "mongodb",
+    "javascript"
+  ],
+  "author": "Janiel Oliveira",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/janiel14/machineevents/issues"
+  },
+  "homepage": "https://github.com/janiel14/machineevents#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "compression": "^1.7.4",
+    "consign": "^0.1.6",
+    "cors": "^2.8.5",
+    "express": "^4.16.4",
+    "express-validator": "^5.3.1",
+    "helmet": "^3.16.0",
+    "method-override": "^3.0.0",
+    "mongoose": "^5.5.2",
+    "winston": "^3.2.1"
+  }
+}

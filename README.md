@@ -10,10 +10,11 @@ project web for monit and take events to the machines control
 - export NODE_ENV=${enviroment} ex: production
 - export NODE_DEBUG=${debug} ex: false
 - export NODE_PORT=${port_run_app}
-- export NODE_MONGODB_HOST=${ip_couch_db} ex: 10.70.0.15:30017
-- export NODE_MONGODB_USER=${user_couch_db} ex: root
-- export NODE_MONGODB_PASS=${pass_couch_db} ex: m200k9
-- export NODE_MONGODB_DBNAME=${dbname} ex: machineevents
+- export NODE_MONGO_HOST=${ip} ex: 10.22.0.3
+- export NODE_MONGO_PORT=${port} ex 27017
+- export NODE_MONGO_USER=${user} ex: machineevents
+- export NODE_MONGO_PASS=${pass} ex: a1sd23f1a3ds2
+- export NODE_MONGO_DBNAME=${dbname} ex: machineevents
 - npm install
 - bower install
 - npm start
@@ -22,10 +23,11 @@ project web for monit and take events to the machines control
 - SET NODE_ENV=${enviroment} ex: production
 - SET NODE_DEBUG=${debug} ex: false
 - SET NODE_PORT=${port_run_app}
-- SET NODE_MONGODB_HOST=${ip_couch_db} ex: 10.70.0.15:30017
-- SET NODE_MONGODB_USER=${user_couch_db} ex: root
-- SET NODE_MONGODB_PASS=${pass_couch_db} ex: m200k9
-- SET NODE_MONGODB_DBNAME=${dbname} ex: machineevents
+- SET NODE_MONGO_HOST=${ip} ex: 10.22.0.3
+- SET NODE_MONGO_PORT=${port} ex 27017
+- SET NODE_MONGO_USER=${user} ex: machineevents
+- SET NODE_MONGO_PASS=${pass} ex: a1sd23f1a3ds2
+- SET NODE_MONGO_DBNAME=${dbname} ex: machineevents
 - npm install
 - bower install
 - npm start

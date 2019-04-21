@@ -31,3 +31,6 @@ project web for monit and take events to the machines control
 - npm install
 - bower install
 - npm start
+
+### See a demo
+[Demo machine events](https://machineevents.cognitionsystem.com.br)

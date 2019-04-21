@@ -22,6 +22,7 @@ module.exports = function(app) {
             } else if (req.params.pag > 3) {
                 req.params.pag = (parseInt(req.params.pag) * parseInt(req.params.limit));
             }
+            const eventsDetails = [];
             const machineEvents = await MachineEvents.find({
                 machine: req.params.machine
             })
@@ -33,13 +34,15 @@ module.exports = function(app) {
                     const event = await Events.findOne({
                         code: item.code
                     });
-                    item.event = event
-                    return item;
+                    eventsDetails.push({
+                        event: event,
+                        detail: item
+                    });
                 }));
             }
             res.status(200).json({
                 message: 'Machine events found',
-                data: machineEvents,
+                data: eventsDetails,
                 total: eventsCount
             });
         } catch (error) {

@@ -26,11 +26,11 @@
         </thead>
         <tbody>
             <tr dir-paginate="machineEvent in machineEvents | filter: filterField | itemsPerPage: limitPage" current-page="currentpage" total-items="totalMachineEvents">
-                <td class="text-center">{{machineEvent.created_date | date:"dd/MM/yyyy HH:mm:ss"}}</td>
-                <td class="text-center">{{machineEvent.code}}</td>
+                <td class="text-center">{{machineEvent.detail.created_date | date:"dd/MM/yyyy HH:mm:ss"}}</td>
+                <td class="text-center">{{machineEvent.event.code}}</td>
                 <td class="text-center">{{machineEvent.event.name}}</td>
             </tr>
-            <tr ng-if="machineEvents.length == 0">
+            <tr ng-if="showLoading == false && machineEvents.length == 0">
                 <td colspan="6" class="text-center">No have event for machine {{machine.name}} registred</td>
             </tr>
         </tbody>

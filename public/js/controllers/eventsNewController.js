@@ -1,15 +1,14 @@
-angular.module('machineevents').controller('machinesNewController', function($scope, $timeout, Machines, Events, $routeParams, $location) {
-    $scope.events = [];
+angular.module('machineevents').controller('eventsNewController', function($scope, $timeout, Events, $routeParams, $location) {
     $scope.showAlertError =  {
         show: false,
         message: null
     };
-    $scope.machine = {
+    $scope.event = {
         active:  {
             value: 'Y',
             name: 'Active'
         },
-        status: '',
+        code: '',
         name: '',
         created_date: null,
         updated_date: null
@@ -42,63 +41,36 @@ angular.module('machineevents').controller('machinesNewController', function($sc
     }
 
     /**
-     * getMachine
+     * getEvent
      */
-    function getMachine() {
+    function getEvent() {
         try {
             $scope.showLoading = true;
-            var ds = Machines.get();
+            var ds = Events.get();
             ds.get({
                 name: $routeParams.name == undefined ? 'NULL' : $routeParams.name
             }, function(response) {
                 $scope.showLoading = false;
                 if (response.data) {
                     $scope.disableName = true;
-                    $scope.machine = response.data;
-                    if ($scope.machine.active == "Y") {
-                        $scope.machine.active = {
+                    $scope.event = response.data;
+                    if ($scope.event.active == "Y") {
+                        $scope.event.active = {
                             value: 'Y',
                             name: 'Active'
                         };
                     } else {
-                        $scope.machine.active = {
+                        $scope.event.active = {
                             value: 'N',
                             name: 'Inactive'
                         };
                     }
-                    $scope.machine.status = {
-                        name: $scope.machine.status
-                    };
                 }
             });
         } catch (error) {
             $scope.showLoading = false;
-            console.error('machinesNewController - getMachine: ', error);
-            showError('Error on get machine');
-        }
-    }
-
-    /**
-     * getEvents
-     * @param {Boolean} cb 
-     */
-    function getEvents(cb) {
-        try {
-            $scope.showLoading = true;
-            var ds = Events.getAll();
-            ds.get({
-                pag: 0,
-                limit: 9999999999999999
-            }, function(response) {
-                $scope.showLoading = false;
-                $scope.events = response.data;
-                cb(true);
-            });
-        } catch (error) {
-            $scope.showLoading = false;
-            console.error('machinesNewController - getEvents: ', error);
-            showError('Error on get events');
-            cb(null);
+            console.error('eventsNewController - getEvent: ', error);
+            showError('Error on get event');
         }
     }
 
@@ -108,18 +80,18 @@ angular.module('machineevents').controller('machinesNewController', function($sc
      */
     $scope.checkExists = function(name) {
         try {
-            var ds = Machines.get();
+            var ds = Events.get();
             ds.get({
                 name: name
             }, function(response) {
                 if (response.data) {
                     showError('Name is existing!');
-                    $scope.machine.name = null;
+                    $scope.event.name = null;
                 }
             });
         } catch (error) {
-            console.error('machinesNewController - checkExists: ', error);
-            showError('Error on check name machine');
+            console.error('eventsNewController - checkExists: ', error);
+            showError('Error on check name event');
         }
     }
 
@@ -128,25 +100,25 @@ angular.module('machineevents').controller('machinesNewController', function($sc
      */
     $scope.formSubmit = function() {
         try {
-            if ($scope.machine.active == null || $scope.machine.active.length == 0) {
+            if ($scope.event.active == null || $scope.event.active.length == 0) {
                 showError('Select active!');
-            } else if ($scope.machine.status == null || $scope.machine.status.length == 0) {
-                showError('Select status!');
-            } else if ($scope.machine.name == null || $scope.machine.name.length == 0) {
-                showError('Informe name of machine!');
+            } else if ($scope.event.code == null || $scope.event.code.length == 0) {
+                showError('Select code!');
+            } else if ($scope.event.name == null || $scope.event.name.length == 0) {
+                showError('Informe name of event!');
             } else {
-                var ds = Machines.save();
+                var ds = Events.save();
                 ds.save({
-                    active: $scope.machine.active.value,
-                    status: $scope.machine.status.name,
-                    name: $scope.machine.name
+                    active: $scope.event.active.value,
+                    code: $scope.event.code,
+                    name: $scope.event.name
                 }, function() {
-                    $location.path("machines");
+                    $location.path("events");
                 });
             }
         } catch (error) {
-            console.error('machinesNewController - formSubmit: ', error);
-            showError('Error on save machine');
+            console.error('eventsNewController - formSubmit: ', error);
+            showError('Error on save event');
         }
     }
 
@@ -154,17 +126,16 @@ angular.module('machineevents').controller('machinesNewController', function($sc
      * init
      */
     $scope.init = function() {
-        $scope.events = [];
         $scope.showAlertError =  {
             show: false,
             message: null
         };
-        $scope.machine = {
+        $scope.event = {
             active:  {
                 value: 'Y',
                 name: 'Active'
             },
-            status: '',
+            code: '',
             name: '',
             created_date: null,
             updated_date: null
@@ -180,9 +151,7 @@ angular.module('machineevents').controller('machinesNewController', function($sc
         ];
         $scope.showLoading = false;
         $scope.disableName = false;
-        getEvents(function() {
-            getMachine();
-        });
+        getEvent();
     }
     $scope.init();
 });

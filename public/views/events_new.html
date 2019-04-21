@@ -1,0 +1,30 @@
+<div class="jumbotron">
+        <h1 class="text-center">Events new</h1>
+    </div>
+    <a href="#!/events" class="btn btn-default">Back</a>
+    <div class="table-responsive">
+        <div ng-if="showLoading" class="spinner-border" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+        <div ng-if="showAlertError.show" class="alert alert-danger" role="alert">
+            {{showAlertError.message}}
+        </div>
+        <form ng-if="!showAlertError.show">
+                <div class="form-group">
+                    <label for="active">Active:</label>
+                    <select class="form-control" name="active" id="active" ng-model="event.active" ng-options="item as item.name for item in listActive track by item.value"></select>
+                </div>
+                <div class="form-group">
+                    <label for="code">Code:</label>
+                    <input ng-disabled="disableName" type="text" ng-model="event.code" class="form-control" id="code" a placeholder="Enter code event">
+                </div>
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input ng-disabled="disableName" type="text" ng-model="event.name" ng-keyup="checkExists(event.name);" class="form-control" id="name" aria-describedby="modelHelp" placeholder="Enter name machine">
+                    <small id="nameHelp" class="form-text text-muted">This is a unique name.</small>
+                </div>
+                <div class="form-group text-right">
+                    <button type="button" class="btn btn-primary" ng-click="formSubmit();">Save</button>
+                </div>
+            </form>
+    </div>

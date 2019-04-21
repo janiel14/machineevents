@@ -13,9 +13,25 @@ angular.module('machineevents', ['ngRoute','ngResource','angularUtils.directives
         templateUrl: 'views/machines_new.html',
         controller: 'machinesNewController'
     });
+    $routeProvider.when('/machines/events/:name', {
+        templateUrl: 'views/machines_events.html',
+        controller: 'machinesEventsController'
+    });
     $routeProvider.when('/events', {
         templateUrl: 'views/events.html',
         controller: 'eventsController'
+    });
+    $routeProvider.when('/events/new', {
+        templateUrl: 'views/events_new.html',
+        controller: 'eventsNewController'
+    });
+    $routeProvider.when('/events/edit/:name', {
+        templateUrl: 'views/events_new.html',
+        controller: 'eventsNewController'
+    });
+    $routeProvider.when('/cron', {
+        templateUrl: 'views/cron.html',
+        controller: 'cronController'
     });
     $routeProvider.otherwise({redirectTo: '/machines'});
 });

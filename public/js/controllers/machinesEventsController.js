@@ -1,11 +1,11 @@
-angular.module('machineevents').controller('eventsController', function($scope, $timeout, Events) {
-    $scope.events = [];
+angular.module('machineevents').controller('machinesEventsController', function($scope, $timeout, $routeParams, MachineEvents, Machines) {
+    $scope.machineEvents = [];
     $scope.currentpage = 0;
-    $scope.totalEvents = 0;
+    $scope.totalMachineEvents = 0;
     $scope.limitPage = 10;
-    $scope.event = {
+    $scope.machine = {
         active: null,
-        code: null,
+        status: null,
         name: null,
         created_date: null,
         updated_date: null,
@@ -33,24 +33,47 @@ angular.module('machineevents').controller('eventsController', function($scope, 
     }
 
     /**
-     * getEvents
+     * getMachine
      */
-    function getEvents() {
+    function getMachine(cb) {
         try {
             $scope.showLoading = true;
-            var ds = Events.getAll();
+            var ds = Machines.get();
             ds.get({
+                name: $routeParams.name == undefined ? 'NULL' : $routeParams.name
+            }, function(response) {
+                $scope.showLoading = false;
+                $scope.machine = response.data;
+                cb(true);
+            });
+        } catch (error) {
+            $scope.showLoading = false;
+            console.error('machineEventsController - getMachine: ', error);
+            showError('Error on get machine');
+            cb(null);
+        }
+    }
+
+    /**
+     * getMachineEvents
+     */
+    function getMachineEvents() {
+        try {
+            $scope.showLoading = true;
+            var ds = MachineEvents.getAll();
+            ds.get({
+                machine: $scope.machine.name,
                 pag: $scope.currentpage,
                 limit: $scope.limitPage
             }, function(response) {
                 $scope.showLoading = false;
-                $scope.events = response.data;
-                $scope.totalEvents = response.total;
+                $scope.machineEvents = response.data;
+                $scope.totalMachineEvents = response.total;
             });
         } catch (error) {
             $scope.showLoading = false;
-            console.error('eventsController - getEvents: ', error);
-            showError('Error on get events');
+            console.error('machineEventsController - getMachineEvents: ', error);
+            showError('Error on get machine');
         }
     }
 
@@ -68,49 +91,16 @@ angular.module('machineevents').controller('eventsController', function($scope, 
     }
 
     /**
-     * select
-     * @param {Object} event
-     */
-    $scope.select = function(event) {
-        $scope.event = event;
-    }
-
-    /**
-     * closeDelete
-     */
-    $scope.closeDelete = function() {
-        $scope.init();
-    }
-
-    /**
-     * delete
-     */
-    $scope.delete = function() {
-        try {
-            var ds = Events.delete();
-            ds.delete({
-                name: $scope.event.name
-            }, function() {
-                $scope.init();
-            });
-        } catch (error) {
-            $scope.showLoading = false;
-            console.error('eventsController - delete: ', error);
-            showError('Error on delete events');
-        }
-    }
-
-    /**
      * init
      */
     $scope.init = function() {
-        $scope.events = [];
+        $scope.machineEvents = [];
         $scope.currentpage = 0;
-        $scope.totalEvents = 0;
+        $scope.totalMachineEvents = 0;
         $scope.limitPage = 10;
-        $scope.event = {
+        $scope.machine = {
             active: null,
-            code: null,
+            status: null,
             name: null,
             created_date: null,
             updated_date: null,
@@ -121,7 +111,9 @@ angular.module('machineevents').controller('eventsController', function($scope, 
             message: null
         };
         $scope.showLoading = false;
-        getEvents();
+        getMachine(function() {
+            getMachineEvents();
+        });
     }
 
     $scope.init();

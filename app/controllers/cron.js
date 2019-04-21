@@ -53,5 +53,31 @@ module.exports = function(app) {
         }
     }
 
+    /**
+     * getCron
+     * @params {Object} req
+     * @params {Object} res
+     * @route /api/cron
+     * @method GET
+     */
+    _self.getCron = async (req, res) => {
+        try {
+            const cron = await Cron.findOne({
+                id: 1
+            });
+            res.status(200).json({
+                message: 'get a cron',
+                data: cron
+            });
+        } catch (error) {
+            console.error('app - controllers - cron - getCron: ', error);
+            app.logger.error('app - controllers - cron - getCron: ' + error);
+            res.status(500).json({
+                message: 'Internal server error',
+                data: null
+            });
+        }
+    }
+
     return _self;
 }

@@ -68,6 +68,39 @@ angular.module('machineevents').controller('machinesController', function($scope
     }
 
     /**
+     * select
+     * @param {Object} machine
+     */
+    $scope.select = function(machine) {
+        $scope.machine = machine;
+    }
+
+    /**
+     * closeDelete
+     */
+    $scope.closeDelete = function() {
+        $scope.init();
+    }
+
+    /**
+     * delete
+     */
+    $scope.delete = function() {
+        try {
+            var ds = Machines.delete();
+            ds.delete({
+                name: $scope.machine.name
+            }, function() {
+                $scope.init();
+            });
+        } catch (error) {
+            $scope.showLoading = false;
+            console.error('machinesController - delete: ', error);
+            showError('Error on delete machines');
+        }
+    }
+
+    /**
      * init
      */
     $scope.init = function() {
